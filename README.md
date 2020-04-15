@@ -10,6 +10,21 @@ This repository only contains one real file, a docker compose file that starts a
 
 This is the backdrop of all our demos. Make sure to have this up and running before trying the examples.
 
+Start the demo setup with:
+
+```bash
+docker-compose up
+```
+
+After a while the logs should die down and the demo setup is up and running.
+To shut it down, CTRL+C the console, and if you want to reset all the data:
+
+```bash
+docker-compose rm
+```
+
+Note: The demo app will keep adding data to postgres, so this database will get large if you leave it running for very long. Also, there are a lot of moving parts here, and they do require a bit of memory. Make sure to assign docker enough memory.
+
 ## floodplain/floodplain-postgres-demo
 
 This is an example dataset, added to a debezium postgres instance. It is a regular postgres database (but with change capture enabled) and with an example dataset.
@@ -62,6 +77,6 @@ It is empty, and will be accessible using port 27017 on localhost.
 
 - image: floodplain/debezium-with-mongodb:1.1
 
-This is a debezium connector, enhanced with a HTTP connector, a very experimental Google Sheets connector and a MongoDB connector.
+This is a debezium connector, enhanced with a HTTP connector, a very experimental Google Sheets connector and a (standard) MongoDB connector.
 
 This is the Kafka Connect instance (exposing http://localhost:8083) where it receives commands.
