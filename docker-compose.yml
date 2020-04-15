@@ -8,9 +8,6 @@ services:
       POSTGRES_PASSWORD: mysecretpassword
   cdcservice:
     image: floodplain/cdcservice:0.0.1
-    build:
-      context: .
-      dockerfile: src/main/docker/Dockerfile.jvm
     depends_on:
       - "postgres"
     ports:
