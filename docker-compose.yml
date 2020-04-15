@@ -1,0 +1,69 @@
+version: "2"
+services:
+  postgres:
+    image: floodplain/floodplain-postgres-demo:1.0.0
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+  cdcservice:
+    image: floodplain/cdcservice:0.0.1
+    build:
+      context: .
+      dockerfile: src/main/docker/Dockerfile.jvm
+    depends_on:
+      - "postgres"
+    ports:
+      - "8080:8080"
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+    logging:
+      driver: none
+  kafka:
+    image: wurstmeister/kafka:2.12-2.4.0
+    ports:
+      - "9092:9092"
+    logging:
+      driver: none
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_CREATE_TOPICS: "topic-config:10:1,offset-storage:10:1"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - zookeeper
+  kafkamanager:
+    image: hlebalbau/kafka-manager:2.0.0.2
+    ports:
+      - "9000:9000"
+    environment:
+      - ZK_HOSTS=zookeeper
+      - ZOOKEEPER_IP=zookeeper
+    logging:
+      driver: none
+  mongo:
+    image: mongo:latest
+    container_name: "mongo"
+    environment:
+      - MONGO_DATA_DIR=/data/db
+#    volumes:
+#      - ./mongodata:/data/db
+    ports:
+      - 27017:27017
+    logging:
+      driver: none
+    command: mongod # --quiet
+  connect:
+    image: floodplain/debezium-with-mongodb:1.1
+    ports:
+      - "8083:8083"
+#   volumes:
+#     - /Users/frank/sheetkey.json:/kafka/credentials.json
+    environment:
+      - BOOTSTRAP_SERVERS=kafka:9092
+      - CONFIG_STORAGE_TOPIC=topic-config
+      - OFFSET_STORAGE_TOPIC=offset-storage
+      - LOG_LEVEL=INFO
