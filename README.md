@@ -1,12 +1,14 @@
 # Welcome to floodplain!
 
-So first, clone the repository somewher:
+So first, clone the repository somewhere:
 
 ```bash
 git clone https://github.com/floodplainio/floodplain-demo-setup.git
 ```
 
 This repository only contains one real file, a docker compose file that starts a bunch of containers. I'll list them here to explain their function.
+
+This is the backdrop of all our demos. Make sure to have this up and running before trying the examples.
 
 ## floodplain/floodplain-postgres-demo
 
