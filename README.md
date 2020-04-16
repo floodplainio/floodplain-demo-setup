@@ -10,6 +10,8 @@ This repository only contains one real file, a docker compose file that starts a
 
 This is the backdrop of all our demos. Make sure to have this up and running before trying the examples.
 
+**Beware, there are a lot of moving parts, most are JVM based, so make sure your docker setup has enough memory to work with. On my macbook, 3Gb seems to work fine**
+
 Start the demo setup with:
 
 ```bash
