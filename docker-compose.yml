@@ -19,7 +19,7 @@ services:
     logging:
       driver: none
   kafka:
-    image: wurstmeister/kafka:2.12-2.4.0
+    image: wurstmeister/kafka:2.12-2.4.1
     ports:
       - "9092:9092"
     logging:
@@ -54,7 +54,7 @@ services:
       driver: none
     command: mongod # --quiet
   connect:
-    image: floodplain/debezium-with-mongodb:1.1
+    image: floodplain/debezium-with-mongodb:0.8.19
     ports:
       - "8083:8083"
 #   volumes:
